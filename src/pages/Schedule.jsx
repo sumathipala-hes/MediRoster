@@ -1,18 +1,13 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, Sidebar} from "../components";
-import {Schedule} from "../components"
+import { Navbar, Footer, Sidebar } from "../components";
+import { Schedule } from "../components";
 import { Doctorlinks } from "../data/dummy";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
 const SchedulePage = () => {
-  const {
-    setCurrentColor,
-    setCurrentMode,
-    currentMode,
-    activeMenu,
-
-  } = useStateContext();
+  const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
+    useStateContext();
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
@@ -43,14 +38,12 @@ const SchedulePage = () => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <Schedule/>
-            
+            <Schedule />
           </div>
           <Footer />
         </div>
       </div>
     </div>
-   
   );
 };
 

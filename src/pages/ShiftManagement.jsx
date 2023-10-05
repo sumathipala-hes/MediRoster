@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, ConsultantSideBar } from "../components";
+import { Navbar, Footer, ConsultantSideBar, Doctors } from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const ConsultantSchedule = () => {
+const ConsultantPage = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
     useStateContext();
 
@@ -36,7 +36,7 @@ const ConsultantSchedule = () => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <div>Consultant Schedule</div>
+            <div>Shift Management</div>
           </div>
           <Footer />
         </div>
@@ -45,4 +45,4 @@ const ConsultantSchedule = () => {
   );
 };
 
-export default ConsultantSchedule;
+export default ConsultantPage;

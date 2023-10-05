@@ -33,7 +33,7 @@ const Sidebar = () => {
             >
               <SiMastodon /> <span>MediRoster</span>
             </Link>
-            <TooltipComponent content="Menu" position="BottomCenter" > 
+            <TooltipComponent content="Menu" position="BottomCenter">
               <button
                 type="button"
                 onClick={() => setActiveMenu(!activeMenu)}
@@ -43,7 +43,7 @@ const Sidebar = () => {
               >
                 <MdOutlineCancel />
               </button>
-            </TooltipComponent> 
+            </TooltipComponent>
           </div>
           <div className="mt-10">
             {Consultantlinks.map((item) => (
@@ -63,10 +63,8 @@ const Sidebar = () => {
                       isActive ? activeLink : normalLink
                     }
                   >
-                    <span style={{ color: 'white' }}>{link.icon}</span>
-                    <span className="capitalize text-white">
-                      {link.name}
-                    </span>
+                    <span style={{ color: "white" }}>{link.icon}</span>
+                    <span className="capitalize text-white">{link.name}</span>
                   </NavLink>
                 ))}
               </div>

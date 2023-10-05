@@ -1,7 +1,8 @@
 {
-  "name": "project_syncfusion_dashboard",
+  "name": "MediRoster",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://127.0.0.1:5000/",
   "dependencies": {
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
@@ -13,6 +14,7 @@
     "@syncfusion/ej2-react-popups": "^19.4.52",
     "@syncfusion/ej2-react-richtexteditor": "^19.4.50",
     "@syncfusion/ej2-react-schedule": "^19.4.50",
+    "axios": "^1.5.1",
     "react": "^17.0.2",
     "react-calendar": "^4.6.0",
     "react-datepicker": "^4.17.0",

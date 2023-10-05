@@ -1,25 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
 const AddConsultant = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    contactNumber: '',
-    address: '',
-    specialization: '', // Dropdown
-    doctorType: '', // Dropdown
-    ward: '', // Dropdown
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+    specialization: "", // Dropdown
+    doctorType: "", // Dropdown
+    ward: "", // Dropdown
   });
-
+  const [res, setRes] = useState();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform validation and submit data to the server
     console.log(formData); // For testing, remove in production
+    try {
+      // Send a POST request to your backend server
+      const response = await axios.post("/api/consultant", formData); // Replace '/api/ward' with your server's endpoint
+
+      // Check the response from the server and handle it accordingly
+      if (response.status === 200) {
+        console.log("Data sent successfully!");
+        // Optionally, you can reset the form fields here:
+        setFormData({
+          name: "",
+          email: "",
+          contactNumber: "",
+          address: "",
+          specialization: "", // Dropdown
+          doctorType: "", // Dropdown
+          ward: "", // Dropdown
+        });
+      } else {
+        console.error("Server error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
   };
 
   return (
@@ -29,7 +53,10 @@ const AddConsultant = () => {
         <form onSubmit={handleSubmit} className="w-full">
           {/* Name */}
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="name"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Name
             </label>
             <input
@@ -45,7 +72,10 @@ const AddConsultant = () => {
 
           {/* Email */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700  font-bold mb-2">
+            <label
+              htmlFor="email"
+              className="block text-gray-700  font-bold mb-2"
+            >
               Email
             </label>
             <input
@@ -61,7 +91,10 @@ const AddConsultant = () => {
 
           {/* Contact Number */}
           <div className="mb-4">
-            <label htmlFor="contactNumber" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="contactNumber"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Contact Number
             </label>
             <input
@@ -77,7 +110,10 @@ const AddConsultant = () => {
 
           {/* Address */}
           <div className="mb-4">
-            <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="address"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Address
             </label>
             <input
@@ -93,7 +129,10 @@ const AddConsultant = () => {
 
           {/* Specialization Dropdown */}
           <div className="mb-4">
-            <label htmlFor="specialization" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="specialization"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Specialization
             </label>
             <select
@@ -118,6 +157,7 @@ const AddConsultant = () => {
             >
               Add Consultant
             </button>
+            <div>{res}</div>
           </div>
         </form>
       </div>
@@ -126,4 +166,3 @@ const AddConsultant = () => {
 };
 
 export default AddConsultant;
-

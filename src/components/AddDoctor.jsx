@@ -1,25 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
 const AddDoctor = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    contactNumber: '',
-    address: '',
-    specialization: '', // Dropdown
-    doctorType: '', // Dropdown
-    ward: '', // Dropdown
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+    specialization: "", // Dropdown
+    doctorType: "", // Dropdown
+    ward: "", // Dropdown
   });
-
+  const [res, setRes] = useState();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform validation and submit data to the server
     console.log(formData); // For testing, remove in production
+    try {
+      // Send a POST request to your backend server
+      const response = await axios.post("/api/doctor", formData); // Replace '/api/ward' with your server's endpoint
+
+      // Check the response from the server and handle it accordingly
+      if (response.status === 200) {
+        console.log("Data sent successfully!");
+        // Optionally, you can reset the form fields here:
+        setFormData({
+          name: "",
+          email: "",
+          contactNumber: "",
+          address: "",
+          specialization: "", // Dropdown
+          doctorType: "", // Dropdown
+          ward: "", // Dropdown
+        });
+        console.log(response.data["message"]);
+        setRes(response.data["message"]);
+      } else {
+        console.error("Server error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
   };
 
   return (
@@ -29,7 +55,10 @@ const AddDoctor = () => {
         <form onSubmit={handleSubmit} className="w-full">
           {/* Name */}
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="name"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Name
             </label>
             <input
@@ -45,7 +74,10 @@ const AddDoctor = () => {
 
           {/* Email */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700  font-bold mb-2 ">
+            <label
+              htmlFor="email"
+              className="block text-gray-700  font-bold mb-2 "
+            >
               Email
             </label>
             <input
@@ -54,14 +86,17 @@ const AddDoctor = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg" 
+              className="form-input border border-gray-400 w-64 rounded-lg"
               required
             />
           </div>
 
           {/* Contact Number */}
           <div className="mb-4">
-            <label htmlFor="contactNumber" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="contactNumber"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Contact Number
             </label>
             <input
@@ -77,7 +112,10 @@ const AddDoctor = () => {
 
           {/* Address */}
           <div className="mb-4">
-            <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="address"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Address
             </label>
             <input
@@ -93,7 +131,10 @@ const AddDoctor = () => {
 
           {/* Specialization Dropdown */}
           <div className="mb-4">
-            <label htmlFor="specialization" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="specialization"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Specialization
             </label>
             <select
@@ -113,7 +154,10 @@ const AddDoctor = () => {
 
           {/* Doctor Type Dropdown */}
           <div className="mb-4">
-            <label htmlFor="doctorType" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="doctorType"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Doctor Type
             </label>
             <select
@@ -125,7 +169,9 @@ const AddDoctor = () => {
               required
             >
               <option value="">Select Doctor Type</option>
-              <option value="Senior Medical Officer">Senior Medical Officer</option>
+              <option value="Senior Medical Officer">
+                Senior Medical Officer
+              </option>
               <option value="Medical Officer">Medical Officer</option>
               <option value="Senior House Officer">Senior House Officer</option>
               {/* Add more options as needed */}
@@ -134,7 +180,10 @@ const AddDoctor = () => {
 
           {/* Ward Dropdown */}
           <div className="mb-4">
-            <label htmlFor="ward" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="ward"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Ward
             </label>
             <select
@@ -159,6 +208,7 @@ const AddDoctor = () => {
             >
               Add Doctor
             </button>
+            <div>{res}</div>
           </div>
         </form>
       </div>
@@ -167,4 +217,3 @@ const AddDoctor = () => {
 };
 
 export default AddDoctor;
-
