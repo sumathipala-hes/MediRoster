@@ -1,17 +1,11 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, AdminSideBar,Wards} from "../components";
-
+import { Navbar, Footer, AdminSideBar, GetWards } from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
 const ConsultantPage = () => {
-  const {
-    setCurrentColor,
-    setCurrentMode,
-    currentMode,
-    activeMenu,
-
-  } = useStateContext();
+  const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
+    useStateContext();
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
@@ -42,14 +36,12 @@ const ConsultantPage = () => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <Wards />
-            
+            <GetWards />
           </div>
           <Footer />
         </div>
       </div>
     </div>
-   
   );
 };
 
