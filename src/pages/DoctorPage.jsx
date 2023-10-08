@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, Sidebar} from "../components";
+import { Navbar, Footer, Sidebars} from "../components";
 import { Calendar } from "../pages";
 
 import {BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const DoctorPage = () => {
+const DoctorPage = (props) => {
   const {
     setCurrentColor,
     setCurrentMode,
@@ -27,12 +27,12 @@ const DoctorPage = () => {
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar />
+          <div className="w-72 fixed Sidebar dark:bg-secondary-dark-bg bg-white ">
+            <Sidebars links={props.Links} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar />
+            <Sidebars links={props.Links} />
           </div>
         )}
         <div

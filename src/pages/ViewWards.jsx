@@ -3,13 +3,13 @@ import {
   Wards,
   Navbar,
   Footer,
-  ConsultantSideBar,
+  Sidebars,
   Doctors,
 } from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const ConsultantPage = () => {
+const ConsultantPage = (props) => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
     useStateContext();
 
@@ -26,11 +26,11 @@ const ConsultantPage = () => {
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <ConsultantSideBar />
+            <Sidebars links={props.Links} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <ConsultantSideBar />
+            <Sidebars links={props.Links} />
           </div>
         )}
         <div

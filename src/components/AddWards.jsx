@@ -43,12 +43,12 @@ const AddWard = () => {
   };
 
   return (
-    <div className="container mx-auto flex justify-center items-center h-screen">
-      <div className=" bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-4">Add Ward</h2>
+    <div className="container mx-auto flex justify-center items-center w-screen sm:w-96 ">
+      <div className=" bg-slate-100 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-md ">
+        <div className="text-2xl text-center font-semibold mb-4">Add Ward</div>
         <form onSubmit={handleSubmit} className="w-full">
           {/* Name */}
-          <div className="mb-4">
+          <div className="mb-4 ">
             <label
               htmlFor="name"
               className="block text-gray-700 font-bold mb-2"
@@ -61,7 +61,7 @@ const AddWard = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -80,7 +80,7 @@ const AddWard = () => {
               name="shifts"
               value={formData.shifts}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -99,7 +99,7 @@ const AddWard = () => {
               name="beds"
               value={formData.beds}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -118,7 +118,7 @@ const AddWard = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -136,7 +136,7 @@ const AddWard = () => {
               name="consultantName"
               value={formData.consultantName}
               onChange={handleInputChange}
-              className="form-select border border-gray-400 w-64 rounded-lg"
+              className="form-select border border-gray-400 w-full rounded-lg"
               required
             >
               <option value="">Select Name</option>

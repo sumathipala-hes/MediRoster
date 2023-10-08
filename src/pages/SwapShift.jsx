@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, Sidebar,SwapShifts} from "../components";
+import { Navbar, Footer, Sidebars,SwapShifts} from "../components";
 
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const SwapShiftPage = () => {
+const SwapShiftPage = (props) => {
   const {
     setCurrentColor,
     setCurrentMode,
@@ -25,12 +25,12 @@ const SwapShiftPage = () => {
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar />
+          <div className="w-72 fixed Sidebar dark:bg-secondary-dark-bg bg-white ">
+            <Sidebars links={props.Links} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar />
+            <Sidebars links={props.Links} />
           </div>
         )}
         <div

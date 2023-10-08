@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, AdminSideBar,AddWard} from "../components";
+import { Navbar, Footer, Sidebars,AddWard} from "../components";
 
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const ConsultantPage = () => {
+const ConsultantPage = (props) => {
   const {
     setCurrentColor,
     setCurrentMode,
@@ -26,11 +26,11 @@ const ConsultantPage = () => {
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <AdminSideBar />
+            <Sidebars links={props.Links} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <AdminSideBar />
+            <Sidebars links={props.Links} />
           </div>
         )}
         <div

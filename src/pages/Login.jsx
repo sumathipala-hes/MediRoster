@@ -35,14 +35,14 @@ export default function Login() {
       })
       .then((data) => {
         if (data) {
-          login({ role: "admin" });
-          const ro = "consultant";
-          console.log(login.role);
-          if (ro === "consultant") {
-            navigate("/consultantSchedule");
-          } else if (ro === "admin") {
+          login(data);
+          localStorage.setItem('user',JSON.stringify(data)); 
+          console.log(data);
+          if (data.role === "consultant") {
+            navigate("/schedule");
+          } else if (data.role === "admin") {
             navigate("/wards");
-          } else if (ro === "doctor") {
+          } else if (data.role === "doctor") {
             navigate("/schedule");
           }
         } else {

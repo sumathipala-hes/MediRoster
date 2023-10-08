@@ -47,8 +47,8 @@ const AddConsultant = () => {
   };
 
   return (
-    <div className="container mx-auto  flex justify-center items-center h-screen">
-      <div className=" bg-white shadow-md px-8 pt-6 pb-8 mb-4 w-full max-w-md rounded-3xl">
+    <div className="container mx-auto flex justify-center items-center w-screen sm:w-96">
+      <div className="bg-slate-100 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-4">Add Consultant</h2>
         <form onSubmit={handleSubmit} className="w-full">
           {/* Name */}
@@ -65,7 +65,7 @@ const AddConsultant = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -84,7 +84,7 @@ const AddConsultant = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -103,7 +103,7 @@ const AddConsultant = () => {
               name="contactNumber"
               value={formData.contactNumber}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -122,7 +122,7 @@ const AddConsultant = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              className="form-input border border-gray-400 w-64 rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
@@ -140,7 +140,7 @@ const AddConsultant = () => {
               name="specialization"
               value={formData.specialization}
               onChange={handleInputChange}
-              className="form-select border border-gray-400 w-64 rounded-lg"
+              className="form-select border border-gray-400 w-full rounded-lg"
               required
             >
               <option value="">Select Specialization</option>

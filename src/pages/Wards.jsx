@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, AdminSideBar,Wards} from "../components";
+import { Navbar,Footer,Sidebars,Wards } from "../components";
 
 
 import { useStateContext } from "../contexts/ContextProvider";
+import GetWards from "../components/GetWards";
 
-const ConsultantPage = () => {
+
+const ConsultantPage = (props) => {
   const {
     setCurrentColor,
     setCurrentMode,
@@ -21,16 +23,17 @@ const ConsultantPage = () => {
       setCurrentMode(currentThemeMode);
     }
   }, []);
+  console.log(props);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <AdminSideBar />
+          <div className="w-72 fixed Sidebar dark:bg-secondary-dark-bg bg-white ">
+            <Sidebars links={props.Links} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <AdminSideBar />
+            <Sidebars links={props.Links} />
           </div>
         )}
         <div
@@ -42,7 +45,7 @@ const ConsultantPage = () => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <Wards />
+            <GetWards />
             
           </div>
           <Footer />
