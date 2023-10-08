@@ -3,6 +3,7 @@ import { Navbar,Footer,Sidebars,Wards } from "../components";
 
 
 import { useStateContext } from "../contexts/ContextProvider";
+import GetWards from "../components/GetWards";
 
 
 const ConsultantPage = (props) => {
@@ -44,7 +45,7 @@ const ConsultantPage = (props) => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <Wards />
+            <GetWards />
             
           </div>
           <Footer />
