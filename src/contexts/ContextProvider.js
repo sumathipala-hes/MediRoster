@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from "react";
 
 const StateContext = createContext();
@@ -10,7 +11,7 @@ const initialState = {
 };
 
 export const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem('user')?JSON.parse(localStorage.getItem('user')):null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = (userData) => {
@@ -47,6 +48,7 @@ export const ContextProvider = ({ children }) => {
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <StateContext.Provider
       value={{
+        user,
         login,
         logout,
         currentColor,

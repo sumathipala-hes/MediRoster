@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, ConsultantSideBar,ConsultantAccept} from "../components";
+import { Navbar, Footer, Sidebars,ConsultantAccept} from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const ConsultantSchedule = () => {
+const ConsultantSchedule = (props) => {
   const {
     setCurrentColor,
     setCurrentMode,
@@ -25,11 +25,11 @@ const ConsultantSchedule = () => {
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <ConsultantSideBar />
+            <Sidebars links={props.Links} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <ConsultantSideBar />
+            <Sidebars links={props.Links} />
           </div>
         )}
         <div

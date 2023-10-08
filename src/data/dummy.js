@@ -7,6 +7,9 @@ import {
   AiOutlineStock,
 } from "react-icons/ai";
 import {
+  RiAdminFill
+} from "react-icons/ri";
+import {
   FiShoppingBag,
   FiEdit,
   FiPieChart,
@@ -22,6 +25,7 @@ import {
   BsCurrencyDollar,
   BsShield,
   BsChatLeft,
+  BsQuestionDiamondFill
 } from "react-icons/bs";
 import { BiColorFill } from "react-icons/bi";
 import { IoMdContacts } from "react-icons/io";
@@ -688,14 +692,14 @@ export const Adminlinks = [
   {
     links: [
       {
+        name: "Admins",
+        path: "/admins",
+        icon: <RiAdminFill />,
+      },
+      {
         name: "Wards",
         path: "/wards",
         icon: <FaHospital />,
-      },
-      {
-        name: "Add Wards",
-        path: "/addWards",
-        icon: <FaPlus />,
       },
       {
         name: "Consultant",
@@ -703,20 +707,15 @@ export const Adminlinks = [
         icon: <FaUserMd />,
       },
       {
-        name: "Add Consultant",
-        path: "/addConsultant",
-        icon: <FaPlus />,
-      },
-      {
         name: "Doctors",
         path: "/doctors",
         icon: <FaUsers />,
       },
       {
-        name: "Add Doctors",
-        path: "/addDoctors",
-        icon: <FaPlus />,
-      },
+      name: "Constraints",
+      path: "/constraints",
+      icon: <BsQuestionDiamondFill />,
+    },
     ],
   },
 ];

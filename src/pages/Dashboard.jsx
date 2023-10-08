@@ -3,13 +3,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { Navbar, Footer, Sidebar, ThemeSettings } from '../components';
+import { Navbar, Footer, Sidebars, ThemeSettings } from '../components';
 import { Overview, Wards, Calendar, Doctors, Consultants } from '../pages';
 import '../App.css';
 
 import { useStateContext } from '../contexts/ContextProvider';
    
-const Dashboard = () => {
+const Dashboard = (props) => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
 
   useEffect(() => {
@@ -41,12 +41,12 @@ const Dashboard = () => {
             </TooltipComponent>
           </div>
           {activeMenu ? (
-            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-              <Sidebar />
+            <div className="w-72 fixed Sidebar dark:bg-secondary-dark-bg bg-white ">
+              <Sidebars links={props.Links} />
             </div>
           ) : (
             <div className="w-0 dark:bg-secondary-dark-bg">
-              <Sidebar />
+              <Sidebars links={props.Links} />
             </div>
           )}
           <div
