@@ -1,10 +1,28 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inject, Edit, Toolbar, Sort, Filter } from '@syncfusion/ej2-react-grids';
 
 import { doctorsData, doctorsGrid } from '../data/dummy';
 import { AddDoctor, Header } from '../components';
 
 const Doctors = () => {
+
+  const [doctors, setDoctors] = useState([]);
+  useEffect(() => {
+    // Make a GET request to your Flask API
+    fetch("/api/getDoctors")
+      .then((response) => response.json())
+      .then((data) => {
+        // Set the retrieved data to the 'wards' state
+        setDoctors(data.doctors);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+
+
+
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ['Delete'];
   const editing = { allowDeleting: true, allowEditing: true };
@@ -12,6 +30,7 @@ const Doctors = () => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleClick = () => {
+    
       setShowComponent((prevShowComponent) => !prevShowComponent);} // Toggle the value
 
   return (
@@ -22,7 +41,7 @@ const Doctors = () => {
       {showComponent && <AddDoctor />} </div>
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl z-0">
     <GridComponent
-      dataSource={doctorsData}
+      dataSource={doctors}
       enableHover={false}
       allowPaging
       pageSettings={{ pageCount: 5 }}

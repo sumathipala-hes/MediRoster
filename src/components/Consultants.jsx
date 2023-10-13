@@ -1,10 +1,25 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inject, Edit, Toolbar, Sort, Filter } from '@syncfusion/ej2-react-grids';
 
 import { consultantsData, consultantsGrid } from '../data/dummy';
 import { AddConsultant, Header } from '../components';
 
 const Consultants = () => {
+  const [consultants, setConsultants] = useState([]);
+    useEffect(() => {
+      // Make a GET request to your Flask API
+      fetch("/api/getConsultants")
+        .then((response) => response.json())
+        .then((data) => {
+          // Set the retrieved data to the 'wards' state
+          setConsultants(data.consultants);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+
+      }, []);
+
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ['Delete'];
   const editing = { allowDeleting: true, allowEditing: true };
@@ -15,14 +30,14 @@ const Consultants = () => {
       setShowComponent((prevShowComponent) => !prevShowComponent);} // Toggle the value
 
   return (
-    <div className='relative'>
+  <div className='relative'>
       <div className='md:pl-20 pl-7 text-3xl font-semibold z-0'>Consultants</div>
       <div className='absolute z-20 container mx-auto flex-col justify-center items-center pl-2'>
       <button onClick={handleClick} className='bg-blue-900 hover:bg-blue-800 rounded-md p-1 md:ml-20 ml-6 text-white'>Add consultants</button>
       {showComponent && <AddConsultant />} </div>
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl z-0">
       <GridComponent
-        dataSource={consultantsData}
+        dataSource={consultants}
         enableHover={false}
         allowPaging
         pageSettings={{ pageCount: 5 }}

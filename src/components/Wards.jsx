@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject } from '@syncfusion/ej2-react-grids';
 
 import { wardsData, contextMenuItems, wardsGrid } from '../data/dummy';
 import { AddWard, Header } from '../components';
 
 const Wards = () => {
+  const [wards, setWards] = useState([]);
+  useEffect(() => {
+    // Make a GET request to your Flask API
+    fetch("/api/getWards")
+      .then((response) => response.json())
+      .then((data) => {
+        // Set the retrieved data to the 'wards' state
+        setWards(data.wards);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
   const editing = { allowDeleting: true, allowEditing: true };
   const [showComponent, setShowComponent] = useState(false);
 
@@ -21,7 +34,7 @@ const Wards = () => {
         <div className="relative m-2 md:m-10 mt-10 p-2 md:p-10 bg-white rounded-md z-10">
       <GridComponent
         id="gridcomp"
-        dataSource={wardsData}
+        dataSource={wards}
         allowPaging
         allowSorting
         allowExcelExport
