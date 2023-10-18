@@ -6,8 +6,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ConsultantPage = (props) => {
-  const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
+  const { setCurrentColor, setCurrentMode, currentMode, activeMenu ,user} =
     useStateContext();
+
+  const navigate= useNavigate();
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
@@ -18,7 +20,10 @@ const ConsultantPage = (props) => {
       setCurrentMode(currentThemeMode);
     }
     
-  }, []);
+    if(!user){
+    navigate('/login')
+   }
+  }, [user,navigate]);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">

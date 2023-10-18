@@ -429,7 +429,12 @@ export const LinePrimaryYAxis = {
 
 export const consultantsGrid = [
   { type: "checkbox", width: "50" },
- 
+  {
+    field: "Name",
+    headerText: "Name",
+    width: "150",
+    textAlign: "Center",
+  },
   {
     field: "WardName",
     headerText: "Ward Name",
@@ -463,7 +468,12 @@ export const consultantsGrid = [
 
 export const doctorsGrid = [
   { type: "checkbox", width: "50" },
- 
+  {
+    field: "Name",
+    headerText: "Name",
+    width: "150",
+    textAlign: "Center",
+  },
   {
     field: "WardName",
     headerText: "Ward Name",
