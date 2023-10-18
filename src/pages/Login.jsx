@@ -3,7 +3,7 @@ import LoginBackground from "../data/LoginBackground.jpg";
 import Logo from "../data/mediroster.png";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
-import axios from 'axios';
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,34 +11,32 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useStateContext();
 
-  const handleMainAppPage =async (event) => {
+  const handleMainAppPage = async (event) => {
     event.preventDefault();
     if (!email || !password) {
       alert("Please enter both email and password");
       return;
     }
 
-    const {data}= await axios.post("/api/user/login", {
-        email: email,
-        password: password,
+    const { data } = await axios.post("/api/user/login", {
+      email: email,
+      password: password,
     });
-   if (data) {
-          login(data);
-          localStorage.setItem('user',JSON.stringify(data)); 
+    if (data) {
+      login(data);
+      localStorage.setItem("user", JSON.stringify(data));
 
-          console.log(data);
-          if (data.role === "consultant") {
-            navigate("/schedule");
-          } else if (data.role === "admin") {
-            navigate("/wards");
-          } else if (data.role === "doctor") {
-            navigate("/schedule");
-          }
-        } else {
-          alert("User data not found in the response.");
-        }
-      
-      
+      console.log(data);
+      if (data.role === "consultant") {
+        navigate("/ConsultantAcceptRequest");
+      } else if (data.role === "admin") {
+        navigate("/wards");
+      } else if (data.role === "doctor") {
+        navigate("/schedule");
+      }
+    } else {
+      alert("User data not found in the response.");
+    }
   };
 
   return (
@@ -103,7 +101,7 @@ export default function Login() {
                   required=""
                 />
               </div>
-             
+
               <button
                 type="submit"
                 className="w-full text-white bg-[#016285] hover:bg-[#203d59] focus:ring-4 focus:outline-none focus:ring-[#016285] font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
