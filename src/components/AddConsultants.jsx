@@ -193,12 +193,12 @@ const AddConsultant = () => {
               required
             >
                <option value="">Select Ward</option>
-              <option value="Ward A">ICU</option>
-              <option value="Ward B">Emergency</option>
-              <option value="Ward C">Ward 1</option>
-              <option value="Ward D">Ward 2</option>
-              <option value="Ward E">Ward 3</option>
-              <option value="Ward F">Ward 4</option>
+              <option value="ICU">ICU</option>
+              <option value="Emergency">Emergency</option>
+              <option value="Ward 1">Ward 1</option>
+              <option value="Ward 2">Ward 2</option>
+              <option value="Ward 3">Ward 3</option>
+              <option value="Ward 4">Ward 4</option>
               
               {/* Add more options as needed */}
             </select>

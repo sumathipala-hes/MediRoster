@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddWard = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const AddWard = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  const navigate=useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform validation and submit data to the server
@@ -36,6 +37,7 @@ const AddWard = () => {
         });
         console.log(response.data["message"]);
         setRes(response.data["message"]);
+        navigate('/wards')
       } else {
         console.error("Server error:", response.statusText);
       }
