@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { Navbar, Footer, Sidebars, Doctors } from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ConsultantPage = (props) => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -10,10 +12,12 @@ const ConsultantPage = (props) => {
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");
+    
     if (currentThemeColor && currentThemeMode) {
       setCurrentColor(currentThemeColor);
       setCurrentMode(currentThemeMode);
     }
+    
   }, []);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
