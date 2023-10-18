@@ -3,10 +3,11 @@ import axios from "axios";
 
 const AddWard = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    shifts: "",
-    beds: "",
-    consultantName: "",
+          WardName: "",
+          NumberOfShifts: "",
+          NumberOfBeds: "",
+          consultantID: "",
+          WardID: "",
   });
   const [res, setRes] = useState();
   const handleInputChange = (e) => {
@@ -20,17 +21,18 @@ const AddWard = () => {
     console.log(formData); // For testing, remove in production
     try {
       // Send a POST request to your backend server
-      const response = await axios.post("/api/ward", formData); // Replace '/api/ward' with your server's endpoint
+      const response = await axios.put("/api/wards/addWard", formData); // Replace '/api/ward' with your server's endpoint
 
       // Check the response from the server and handle it accordingly
       if (response.status === 200) {
         console.log("Data sent successfully!");
         // Optionally, you can reset the form fields here:
         setFormData({
-          name: "",
-          shifts: "",
-          beds: "",
-          consultantName: "",
+          WardName: "",
+          NumberOfShifts: "",
+          NumberOfBeds: "",
+          consultantID: "",
+          WardID: "",
         });
         console.log(response.data["message"]);
         setRes(response.data["message"]);
@@ -45,21 +47,22 @@ const AddWard = () => {
   return (
     <div className="container mx-auto flex justify-center items-center w-screen sm:w-96 ">
       <div className=" bg-slate-100 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-md ">
+        
         <div className="text-2xl text-center font-semibold mb-4">Add Ward</div>
         <form onSubmit={handleSubmit} className="w-full">
           {/* Name */}
           <div className="mb-4 ">
             <label
-              htmlFor="name"
-              className="block text-gray-700 font-bold mb-2"
+              htmlFor="WardName"
+              classWardName="block text-gray-700 font-bold mb-2"
             >
               Name
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+              id="WardName"
+              name="WardName"
+              value={formData.WardName}
               onChange={handleInputChange}
               className="form-input border border-gray-400 w-full rounded-lg"
               required
@@ -69,16 +72,16 @@ const AddWard = () => {
           {/* shifts */}
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="NumberOfShitfs"
               className="block text-gray-700  font-bold mb-2 "
             >
               No of Shifts
             </label>
             <input
               type="number"
-              id="shifts"
-              name="shifts"
-              value={formData.shifts}
+              id="NumberOfShifts"
+              name="NumberOfShifts"
+              value={formData.NumberOfShifts}
               onChange={handleInputChange}
               className="form-input border border-gray-400 w-full rounded-lg"
               required
@@ -88,65 +91,59 @@ const AddWard = () => {
           {/* beds */}
           <div className="mb-4">
             <label
-              htmlFor="contactNumber"
+              htmlFor="NumberOfBedsr"
               className="block text-gray-700 font-bold mb-2"
             >
               No of Beds
             </label>
             <input
               type="number"
-              id="beds"
-              name="beds"
-              value={formData.beds}
+              id="NumberOfBeds"
+              name="NumberOfBeds"
+              value={formData.NumberOfBeds}
               onChange={handleInputChange}
               className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
 
-          {/* Address */}
+          {/* WardID */}
           <div className="mb-4">
             <label
-              htmlFor="address"
+              htmlFor="WardID"
               className="block text-gray-700 font-bold mb-2"
             >
-              Address
+              Ward ID
             </label>
             <input
-              type="text"
-              id="address"
-              name="address"
-              value={formData.address}
+              type="number"
+              id="WardID"
+              name="WardID"
+              value={formData.WardID}
               onChange={handleInputChange}
               className="form-input border border-gray-400 w-full rounded-lg"
               required
             />
           </div>
 
-          {/* consultantName */}
+          {/* consultantid */}
           <div className="mb-4">
             <label
-              htmlFor="specialization"
+              htmlFor="WardID"
               className="block text-gray-700 font-bold mb-2"
             >
-              consultantName
+             ConsultantID
             </label>
-            <select
-              id="consultantName"
-              name="consultantName"
-              value={formData.consultantName}
+            <input
+              type="number"
+              id="consultantID"
+              name="consultantID"
+              value={formData.consultantID}
               onChange={handleInputChange}
-              className="form-select border border-gray-400 w-full rounded-lg"
+              className="form-input border border-gray-400 w-full rounded-lg"
               required
-            >
-              <option value="">Select Name</option>
-              <option value="Sirimal">Sirimal</option>
-              <option value="Nadeesha">Nadeesha</option>
-              <option value="Nadeesha">Sudharshan</option>
-              {/* Add more options as needed */}
-            </select>
+            />
           </div>
-
           <div className="mt-6">
             <button
               type="submit"

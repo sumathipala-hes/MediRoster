@@ -2,20 +2,24 @@ import React, { useEffect } from "react";
 import { Navbar, Footer, Sidebars } from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 
 const ConsultantSchedule = (props) => {
-  const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
+  const { setCurrentColor, setCurrentMode, currentMode, activeMenu,user } =
     useStateContext();
-
+  const navigate=useNavigate();
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");
+    if(!user){
+      navigate('/login')
+    }
     if (currentThemeColor && currentThemeMode) {
       setCurrentColor(currentThemeColor);
       setCurrentMode(currentThemeMode);
     }
-  }, []);
+  }, [user,navigate]);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">

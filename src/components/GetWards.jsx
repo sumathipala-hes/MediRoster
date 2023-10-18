@@ -6,10 +6,10 @@ function GetWards() {
   useEffect(() => {
     // Make a GET request to your Flask API
     fetch("/api/getWards")
-      .then((response) => response.json())
-      .then((data) => {
+      .then(({data}) => {
+        console.log('first')
         // Set the retrieved data to the 'wards' state
-        setWards(data.wards);
+        setWards(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

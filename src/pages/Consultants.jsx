@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { Navbar, Footer, Sidebars,Consultants} from "../components";
-
+import { Navbar, Footer, Sidebars,Consultants, Doctors} from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const ConsultantPage = (props) => {
@@ -41,7 +40,7 @@ const ConsultantPage = (props) => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <Consultants />
+            <Consultants/>
             
           </div>
           <Footer />

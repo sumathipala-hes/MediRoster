@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddDoctor = () => {
+  const navigate= useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,6 +12,8 @@ const AddDoctor = () => {
     specialization: "", // Dropdown
     doctorType: "", // Dropdown
     ward: "", // Dropdown
+    id:0,
+    role:"doctor"
   });
   const [res, setRes] = useState();
   const handleInputChange = (e) => {
@@ -23,8 +27,8 @@ const AddDoctor = () => {
     console.log(formData); // For testing, remove in production
     try {
       // Send a POST request to your backend server
-      const response = await axios.post("/api/doctor", formData); // Replace '/api/ward' with your server's endpoint
-
+      const response = await axios.put("/api/user/addUser", formData); // Replace '/api/ward' with your server's endpoint
+      navigate('/doctors')
       // Check the response from the server and handle it accordingly
       if (response.status === 200) {
         console.log("Data sent successfully!");
@@ -37,9 +41,10 @@ const AddDoctor = () => {
           specialization: "", // Dropdown
           doctorType: "", // Dropdown
           ward: "", // Dropdown
+          role:"doctor"
         });
-        console.log(response.data["message"]);
-        setRes(response.data["message"]);
+        console.log(response.data.message);
+        setRes(response.data.message);
       } else {
         console.error("Server error:", response.statusText);
       }
@@ -50,7 +55,9 @@ const AddDoctor = () => {
 
   return (
     <div className="container mx-auto flex justify-center items-center w-screen sm:w-96">
+     
       <div className="bg-slate-100 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-md">
+      
         <h2 className="text-2xl font-semibold mb-4">Add Doctor</h2>
         <form onSubmit={handleSubmit} className="w-full">
           {/* Name */}
@@ -71,7 +78,24 @@ const AddDoctor = () => {
               required
             />
           </div>
-
+          {/* ID */}
+          <div className="mb-4">
+          <label
+              htmlFor="id"
+              className="block text-gray-700 font-bold mb-2"
+            >
+             ID
+            </label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              value={formData.id}
+              onChange={handleInputChange}
+              className="form-input border border-gray-400 w-full rounded-lg"
+              required
+            />
+          </div>
           {/* Email */}
           <div className="mb-4">
             <label

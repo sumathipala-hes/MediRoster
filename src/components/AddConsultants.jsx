@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddConsultant = () => {
+  const navigate= useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,6 +12,8 @@ const AddConsultant = () => {
     specialization: "", // Dropdown
     doctorType: "", // Dropdown
     ward: "", // Dropdown
+    id:0,
+    role:"consultant"
   });
   const [res, setRes] = useState();
   const handleInputChange = (e) => {
@@ -23,8 +27,8 @@ const AddConsultant = () => {
     console.log(formData); // For testing, remove in production
     try {
       // Send a POST request to your backend server
-      const response = await axios.post("/api/consultant", formData); // Replace '/api/ward' with your server's endpoint
-
+      const response = await axios.put("/api/user/addUser", formData); // Replace '/api/ward' with your server's endpoint
+      navigate('/consultant')
       // Check the response from the server and handle it accordingly
       if (response.status === 200) {
         console.log("Data sent successfully!");
@@ -69,7 +73,24 @@ const AddConsultant = () => {
               required
             />
           </div>
-
+          {/*ID */}
+          <div className="mb-4">
+          <label
+              htmlFor="id"
+              className="block text-gray-700 font-bold mb-2"
+            >
+             ID
+            </label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              value={formData.id}
+              onChange={handleInputChange}
+              className="form-input border border-gray-400 w-full rounded-lg"
+              required
+            />
+          </div>
           {/* Email */}
           <div className="mb-4">
             <label
@@ -146,6 +167,28 @@ const AddConsultant = () => {
               <option value="">Select Specialization</option>
               <option value="Cardiologist">Cardiologist</option>
               <option value="Dermatologist">Dermatologist</option>
+              {/* Add more options as needed */}
+            </select>
+          </div>
+           {/* Ward Dropdown */}
+           <div className="mb-4">
+            <label
+              htmlFor="ward"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Ward
+            </label>
+            <select
+              id="ward"
+              name="ward"
+              value={formData.ward}
+              onChange={handleInputChange}
+              className="form-select border border-gray-400 w-full rounded-lg"
+              required
+            >
+              <option value="">Select Ward</option>
+              <option value="Ward A">Ward A</option>
+              <option value="Ward B">Ward B</option>
               {/* Add more options as needed */}
             </select>
           </div>
