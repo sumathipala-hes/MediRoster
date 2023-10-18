@@ -13,7 +13,7 @@ const Wards = () => {
   const[selectedWardId,setSelectedWardId]=useState([]);
   const navigate= useNavigate();
   const toolbarOptions =user && user.role==="admin"? ['Delete']:[];
-  const selectionsettings = { persistSelection: true };
+  
   useEffect(() => {
     // Make a GET request to your Flask API
     const fetchData= async()=>{
@@ -55,11 +55,12 @@ const Wards = () => {
       try {
         await axios.delete(`/api/wards/deleteWards/?ids=${selectedWardId.join(',')}`);
         console.log('Delete request sent successfully');
+        navigate('/wards')
       } catch (error) {
         console.error('Error while deleting:', error);
       }
     
-      navigate('/wards');
+      ;
     };
     
     

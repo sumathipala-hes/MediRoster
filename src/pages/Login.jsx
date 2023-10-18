@@ -25,18 +25,18 @@ export default function Login() {
     if (data) {
       login(data);
       localStorage.setItem("user", JSON.stringify(data));
-
-      console.log(data);
-      if (data.role === "consultant") {
-        navigate("/schedule");
-      } else if (data.role === "admin") {
-        navigate("/wards");
-      } else if (data.role === "doctor") {
-        navigate("/schedule");
-      }
-    } else {
-      alert("User data not found in the response.");
-    }
+ 
+          console.log(data);
+          if (data.role === "consultant") {
+            navigate("/consultantAcceptRequest");
+          } else if (data.role === "admin") {
+            navigate("/wards");
+          } else if (data.role === "doctor") {
+            navigate("/schedule");
+          }
+        } else {
+          alert("User data not found in the response.");
+        }
   };
 
   return (
