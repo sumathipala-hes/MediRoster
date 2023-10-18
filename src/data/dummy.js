@@ -428,10 +428,11 @@ export const LinePrimaryYAxis = {
 };
 
 export const consultantsGrid = [
+  { type: "checkbox", width: "50" },
   {
-    headerText: "Consultant",
-    width: "200",
-    template: customerGridImage,
+    field: "Name",
+    headerText: "Name",
+    width: "150",
     textAlign: "Center",
   },
   {
@@ -440,14 +441,7 @@ export const consultantsGrid = [
     width: "150",
     textAlign: "Center",
   },
-  {
-    field: "Availability",
-    headerText: "Availability",
-    width: "130",
-    format: "yMd",
-    textAlign: "Center",
-    template: customerGridStatus,
-  },
+  
   {
     field: "ContactNo",
     headerText: "Contact No.",
@@ -475,9 +469,9 @@ export const consultantsGrid = [
 export const doctorsGrid = [
   { type: "checkbox", width: "50" },
   {
-    headerText: "Doctor",
-    width: "200",
-    template: customerGridImage,
+    field: "Name",
+    headerText: "Name",
+    width: "150",
     textAlign: "Center",
   },
   {
@@ -486,14 +480,7 @@ export const doctorsGrid = [
     width: "150",
     textAlign: "Center",
   },
-  {
-    field: "Availability",
-    headerText: "Availability",
-    width: "130",
-    format: "yMd",
-    textAlign: "Center",
-    template: customerGridStatus,
-  },
+  
 
   {
     field: "ContactNo",
@@ -684,6 +671,16 @@ export const Doctorlinks = [
         path: "/addPreferences",
         icon: <FaEdit />,
       },
+      {
+        name: "Wards",
+        path: "/wards",
+        icon: <FaHospital />,
+      },
+      {
+        name: "Doctors",
+        path: "/doctors",
+        icon: <FaUsers />,
+      },
     ],
   },
 ];
@@ -691,11 +688,6 @@ export const Doctorlinks = [
 export const Adminlinks = [
   {
     links: [
-      {
-        name: "Admins",
-        path: "/admins",
-        icon: <RiAdminFill />,
-      },
       {
         name: "Wards",
         path: "/wards",
@@ -711,11 +703,6 @@ export const Adminlinks = [
         path: "/doctors",
         icon: <FaUsers />,
       },
-      {
-      name: "Constraints",
-      path: "/constraints",
-      icon: <BsQuestionDiamondFill />,
-    },
     ],
   },
 ];
@@ -724,18 +711,13 @@ export const Consultantlinks = [
   {
     links: [
       {
-        name: "Schedule",
-        path: "/consultantSchedule",
-        icon: <FaCalendarAlt />,
-      },
-      {
         name: "Accept Requests",
         path: "/consultantAcceptRequest",
         icon: <FaClipboardList />,
       },
       {
         name: "View Wards",
-        path: "/viewWards",
+        path: "/Wards",
         icon: <FaHospital />,
       },
       {
@@ -745,13 +727,18 @@ export const Consultantlinks = [
       },
       {
         name: "View Doctors",
-        path: "/viewDoctors",
+        path: "/Doctors",
         icon: <FaUsers />,
       },
       {
         name: "Create Schedule",
         path: "/createSchedule",
         icon: <FaCalendarPlus />,
+      },
+      {
+        name: "View Consultants",
+        path: "/consultant",
+        icon: <FaUserMd />,
       },
     ],
   },
@@ -1090,6 +1077,7 @@ export const ordersGrid = [
 ];
 
 export const wardsGrid = [
+  { type: "checkbox", width: "50" },
   {
     field: "WardName",
     headerText: "Ward Name",
@@ -1125,12 +1113,7 @@ export const wardsGrid = [
     textAlign: "Center",
   },
 
-  {
-    field: "DailyScheduleID",
-    headerText: "Daily Schedule ID",
-    width: "150",
-    textAlign: "Center",
-  },
+ 
 ];
 
 export const consultantsData = [

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Navbar, Footer, Sidebars, SwapRequests} from "../components";
 
 import { useStateContext } from "../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const SwapRequestsPage = (props) => {
   const {
@@ -9,17 +10,20 @@ const SwapRequestsPage = (props) => {
     setCurrentMode,
     currentMode,
     activeMenu,
-
+    user
   } = useStateContext();
-
+ const navigate=useNavigate();
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");
+    if(!user){
+      navigate('/login')
+    }
     if (currentThemeColor && currentThemeMode) {
       setCurrentColor(currentThemeColor);
       setCurrentMode(currentThemeMode);
     }
-  }, []);
+  }, [user,navigate]);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
