@@ -172,6 +172,12 @@ const AddDoctor = () => {
               <option value="">Select Specialization</option>
               <option value="Cardiologist">Cardiologist</option>
               <option value="Dermatologist">Dermatologist</option>
+              <option value="Pediatrics">Pediatrics</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Psychiatry">Psychiatry</option>
+              <option value="Surgery">Surgery</option>
+              <option value="Ophthalmology">Ophthalmology</option>
+
               {/* Add more options as needed */}
             </select>
           </div>
@@ -219,8 +225,12 @@ const AddDoctor = () => {
               required
             >
               <option value="">Select Ward</option>
-              <option value="Ward A">Ward A</option>
-              <option value="Ward B">Ward B</option>
+              <option value="ICU">ICU</option>
+              <option value="Emergency">Emergency</option>
+              <option value="Ward 1">Ward 1</option>
+              <option value="Ward 2">Ward 2</option>
+              <option value="Ward 3">Ward 3</option>
+              <option value="Ward 4">Ward 4</option>
               {/* Add more options as needed */}
             </select>
           </div>
