@@ -28,7 +28,7 @@ export default function Login() {
 
       console.log(data);
       if (data.role === "consultant") {
-        navigate("/ConsultantAcceptRequest");
+        navigate("/schedule");
       } else if (data.role === "admin") {
         navigate("/wards");
       } else if (data.role === "doctor") {
