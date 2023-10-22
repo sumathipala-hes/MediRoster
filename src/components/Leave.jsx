@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Header } from "../components";
 import { RiEditLine ,RiDeleteBin5Line} from "react-icons/ri"; // Import the edit icon
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
-import { useStateContext } from "../contexts/ContextProvider";
-import { AsyncSettings } from "@syncfusion/ej2-react-inputs";
 
 const LeaveRequestsPage = () => {
-  const [leaveRequests, setLeaveRequests] = useState([]);
-  const {user}=useStateContext();
+  const [leaveRequests, setLeaveRequests] = useState([
+    { date: "2023-09-16", status: "Accepted", reason: "Vacation" },
+    { date: "2023-09-17", status: "Accepted", reason: "Family event" },
+    { date: "2023-09-18", status: "Pending", reason: "Sick leave" },
+    { date: "2023-09-20", status: "Rejected", reason: "Personal reasons" },
+    { date: "2023-09-21", status: "Rejected", reason: "Emergency" },
+  ]);
+
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
   const[isEdit,setIsEdit]=useState(false);
   const[editIndex,seteditIndex]=useState();
@@ -44,120 +47,17 @@ const LeaveRequestsPage = () => {
     });
   };
 
-  const submitLeaveRequest =async () => {
+  const submitLeaveRequest = () => {
     // Handle leave request submission here
     // You can add validation and API call here
     // Once submitted, update the leaveRequests state with the new request
-    
-    axios.post('/api/leave/addLeave',{
-      leaveRequestData
-    },{headers:{
-      authorization:`Bearer ${user.token}`
-    }}).then(res=>{
-      
-      const requests=[...leaveRequests,res.data]
-      setLeaveRequests(requests);
-      console.log(leaveRequests)
-    })
+    setLeaveRequests([...leaveRequests, leaveRequestData]);
     setIsModalOpen(false); // Close the modal after submission
-    
   };
-  const handleEdit = (index) => {
-    setIsEdit(true);
-    seteditIndex(index)
-      setLeaveRequestData(leaveRequests[index])
-     openRequestModal()
-  };
-  const handleDelete=async(index)=>{
-    const id=leaveRequests[index]._id
-      const existLeave=[...leaveRequests]
-      existLeave.splice(index,1);
-      setLeaveRequests(existLeave)
-      try{
-        await axios.delete(`/api/leave/deleteLeave/${id}`,{
-          headers:{
-            authorization:`Bearer ${user.token}`
-          }
-        })
-      }
-      catch(err){
-        console.log(err)
-      }
-  }
 
-  
-  const updateStatusHandler = async (index,status) => {
-    if(status){
-      console.log(status); // Ensure status has been set correctly
-    const id = leaveRequests[index]._id;
-    const existLeave = [...leaveRequests];
-    existLeave[index].status = status;
-    setLeaveRequests(existLeave);
-    await axios.put(`/api/leave/acceptLeave/${id}`, {
-      status: status
-    }, {
-      headers: {
-        authorization: `Bearer ${user.token}`
-      }
-    });
-    }
-    
-  };
-  
- const updateHandler=async()=>{
-  setIsEdit(false)
-  closeRequestModal()
-  const exist=[...leaveRequests]
-  exist[editIndex]=leaveRequestData;
-  setLeaveRequests(exist)
- 
-  const leaveId=leaveRequests[editIndex]._id
-  await axios.put(`/api/leave/editLeave/${leaveId}`,
-                {Leavedata:leaveRequestData},
-                {headers:{
-                  authorization:`Bearer ${user.token}`
-                }})
- } 
- const cancelHandler=()=>{
-    setIsEdit(false)
-    closeRequestModal()
-    seteditIndex()
- } 
-useEffect(()=>{
-  
-const fecthLeave=async()=>{
-  console.log('first')
-  await axios.get('/api/leave/getLeave',{
-    headers:{
-      authorization:`Bearer ${user.token}`
-    }
-  })
-  .then(res=>{
-    setLeaveRequests(res.data)
-  })
-}
-const fecthLeaveForAdmin=async()=>{
-  console.log('first')
-  await axios.get('/api/leave/getLeaveAdmin',{
-    headers:{
-      authorization:`Bearer ${user.token}`
-    }
-  })
-  .then(res=>{
-    setLeaveRequests(res.data)
-  })
-}
-if(user && user.role==='admin'){
-  fecthLeaveForAdmin()
-}
-else if(user && user.role!=='admin'){
-  fecthLeave();
-}
-
-},[])
   return (
     <div className="relative m-2 md:mx-5 md:mt-0 p-2 md:p-5 bg-white rounded-3xl">
-      <Header category={user && user.role==="doctor"? "Doctor" :user.role==="admin" ? "Admin" : user.role==="consultant"?"Consultant":""} title="Leave Requests" />
+      <Header category="Doctor" title="Leave Requests" />
       <div className="bg-gray-100 min-h-[60vh] py-8 flex justify-center items-center">
         <div className="bg-white shadow-md p-6 rounded-lg w-full md:w-full lg:w-4/5 relative">
           {user && user.role!=='admin'?(
@@ -275,14 +175,12 @@ else if(user && user.role!=='admin'){
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Date:
                     </label>
-                    <input
-                    type="date"
-                    
-                    value={leaveRequestData.date}
-                    onChange={(e) => handleDateChange(e.target.value)}
-                    className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Select date"
-                  />
+                    <DatePicker
+                      selected={leaveRequestData.selectedDate}
+                      onChange={handleDateChange}
+                      className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      placeholderText="Select date"
+                    />
                 
                   </div>
                   <div className="mb-4">
