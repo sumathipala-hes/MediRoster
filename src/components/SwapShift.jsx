@@ -1,35 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components";
 import { RiPencilFill, RiDeleteBin6Fill } from "react-icons/ri"; // Import edit and delete icons
-
+import axios from "axios";
+import { useStateContext } from "../contexts/ContextProvider";
+import { useRef } from "react";
 const SwapShiftsPage = () => {
-  const [swapRequests, setSwapRequests] = useState([
-    {
-      date: "2023-09-16",
-      timePeriod: "08:00-16:00",
-      selectedDoctor: "Dr. Sirimal",
-      status: "Pending",
-    },
-    {
-      date: "2023-09-18",
-      timePeriod: "16:00-00:00",
-      selectedDoctor: "Dr. Nadeesha",
-      status: "Accepted",
-    },
-    {
-      date: "2023-09-20",
-      timePeriod: "00:00-08:00",
-      selectedDoctor: "Dr. Nuwan",
-      status: "Rejected",
-    },
-    // Add more swap requests here...
-  ]);
-
+  const[names,setNames]=useState([]);
+  const{user}=useStateContext();
+  const [swapRequests, setSwapRequests] = useState( []);
+  const[isEdit,setIsEdit]=useState(false)
+  const[Editindex,setEditIndex]=useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const selectRef = useRef(null);
   const [swapRequestData, setSwapRequestData] = useState({
+    _id:'',
     date: "",
-    timePeriod: "08:00-16:00", // Initialize with the first shift
-    selectedDoctor: "", // Initialize with an empty value
+    timePeriodfrom: null,
+    timePeriodto:null,
+    selectedDoctor: "",
+    selectDoctorId:"",
+    status:"Pending" // Initialize with an empty value
   });
 
   const shifts = ["08:00-16:00", "16:00-00:00", "00:00-08:00"];
@@ -50,6 +40,10 @@ const SwapShiftsPage = () => {
 
   const editRequest = (index) => {
     // Handle editing a swap shift request
+    setIsEdit(true)
+    setEditIndex(index)
+    initiateSwap();
+    setSwapRequestData(swapRequests[index])
   };
 
   const deleteRequest = (index) => {
@@ -66,18 +60,89 @@ const SwapShiftsPage = () => {
       [name]: value,
     });
   };
-
+const handleSelectDoctor=(e)=>{
+  const selectid= selectRef.current.selectedIndex
+  setSwapRequestData({...swapRequestData,selectDoctorId:names[selectid-1]._id,selectedDoctor:e.target.value})
+}
   const submitSwapRequest = () => {
     // Handle swap shift request submission
     // You can add validation and API call here
     // Once submitted, update the swapRequests state with the new request
-    setSwapRequests([...swapRequests, swapRequestData]);
+    
     setIsModalOpen(false); // Close the modal after submission
+    const submit=async()=>{
+      
+        console.log(swapRequestData.selectDoctorId)
+        await axios.post('/api/swap/addswap',{
+          date:swapRequestData.date,
+        timePeriodfrom:swapRequestData.timePeriodfrom,
+        timePeriodto:swapRequestData.timePeriodto,
+        receiver:swapRequestData.selectDoctorId
+        },{
+          headers:{
+            authorization: `Bearer ${user.token}`
+          }
+        }).then(
+          (res)=>{
+            setSwapRequests([...swapRequests, res.data]);
+          }
+        ).catch((err)=> console.log(err))
+      
+      
+    }
+    
+    submit();
   };
+  const saveSwapRequest=(index)=>{
+    const requests=[...swapRequests];
+    requests[index]=swapRequestData;
+    setSwapRequests(requests);
+    setIsModalOpen(false);
+    const save=async()=>{
+      const id= swapRequests[index]._id
+      await axios.put(`/api/swap/updateswap/${id}`,{
+        date:swapRequestData.date,
+        timePeriodfrom:swapRequestData.timePeriodfrom,
+        timePeriodto:swapRequestData.timePeriodto,
+        receiver:swapRequestData.selectDoctorId
+      },{
+        headers:{
+          authorization: `Bearer ${user.token}`
+        }
+      })
+    };
+    save();
+  }
+useEffect(()=>{
+  
+const fetchSwaps=async()=>{
+  const {data}=await axios.get('/api/swap/getswap',{
+    headers:{
+      authorization: `Bearer ${user.token}`
+    }
+  });
+  setSwapRequests(data);
+}
+const fetchDoctorNames=async()=>{
+ const{data}= await axios.get('/api/user/getDoctorsNames');
+ setNames(data)
+}
+const fetchConsultantsNames=async()=>{
+  const {data}=await axios.get('/api/user/getConsultantsNames');
+  setNames(data)
+}
+fetchSwaps();
 
+if(user && user.role==='doctor' ){
+  fetchDoctorNames();
+}
+else if(user && user.role==='consultant'){
+  fetchConsultantsNames();
+}
+},[user])
   return (
     <div className="m-2 md:mx-5 md:mt-0 p-2 md:p-5 bg-white rounded-3xl">
-      <Header category="Doctor" title="Swap Shifts" />
+      <Header category={user && user.role==='doctor'?"Doctor" : "Consultant"} title="Swap Shifts" />
       <div className="bg-gray-100 min-h-[60vh] py-8 flex justify-center items-center">
         <div className="bg-white shadow-md p-6 rounded-lg w-full md:w-full lg:w-4/5">
           <div className="w-full">
@@ -106,8 +171,9 @@ const SwapShiftsPage = () => {
                 >
                   <div>
                     <p className="font-semibold">Date: {request.date}</p>
-                    <p>Shift: {request.timePeriod}</p>
-                    <p>Doctor: {request.selectedDoctor}</p>
+                    <p>Shift From: {request.timePeriodfrom}</p>
+                    <p>Shift To: {request.timePeriodto}</p>
+                    <p>{user && user.role==='doctor'?"Doctor:" : "Consultant:"} {request.selectedDoctor}</p>
                     <span>Status:</span>
                     <span
                       className={`font-bold ${
@@ -182,44 +248,68 @@ const SwapShiftsPage = () => {
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Shift:
+                    Shift from:
                   </label>
                   {/* Add a shift dropdown here */}
-                  <select
-                    name="timePeriod"
-                    value={swapRequestData.timePeriod}
+                  <input
+                    name="timePeriodfrom"
+                    value={swapRequestData.timePeriodfrom}
+                    type="time"
                     onChange={handleInputChange}
                     className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
-                    {shifts.map((shift, index) => (
-                      <option key={index} value={shift}>
-                        {shift}
-                      </option>
-                    ))}
-                  </select>
+                  </input>
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Doctor:
+                    Shift to:
                   </label>
-                  {/* Add a doctor dropdown here based on the selected shift */}
-                  <select
-                    name="selectedDoctor"
-                    value={swapRequestData.selectedDoctor}
+                  {/* Add a shift dropdown here */}
+                  <input
+                    name="timePeriodto"
+                    value={swapRequestData.timePeriodto}
+                    type="time"
                     onChange={handleInputChange}
                     className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
-                    <option value="">Select a doctor</option>
-                    {doctorsByShift[swapRequestData.timePeriod]?.map(
+                  </input>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    {user && user.role==='doctor'?"Doctor:" : "Consultant:"}
+                  </label>
+                  {/* Add a doctor dropdown here based on the selected shift */}
+                  <select
+                   ref={selectRef}
+                   name="selectedDoctor"
+                    value={swapRequestData.selectedDoctor}
+                    onChange={handleSelectDoctor}
+                    className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  >
+                    <option value="">Select a {user && user.role==='doctor'?"doctor":"consultant"}</option>
+                    {names.map(
                       (doctor, index) => (
-                        <option key={index} value={doctor}>
-                          {doctor}
+                        <option key={index} value={doctor.Name}>
+                          {doctor.Name}
                         </option>
+                        
                       )
                     )}
                   </select>
                 </div>
-                <div className="mb-4 text-center">
+                {isEdit?(
+                   <div className="mb-4 text-center">
+                   <button
+                     type="button"
+                     onClick={()=>saveSwapRequest(Editindex)}
+                     className="bg-[#55aed4] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full"
+                   >
+                     Save Changes
+                   </button>
+                 </div>
+                ):
+                (
+                  <div className="mb-4 text-center">
                   <button
                     type="button"
                     onClick={submitSwapRequest}
@@ -228,6 +318,8 @@ const SwapShiftsPage = () => {
                     Submit Request
                   </button>
                 </div>
+                )}
+               
               </form>
             </div>
           </div>
