@@ -3,58 +3,37 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Header } from "../components";
 
-const SchedulePage = () => {
+const Preferences = () => {
   const [clickedDate, setClickedDate] = useState(new Date());
-  const [preferences, setPreferences] = useState({}); // Store doctor's preferences
-    console.log(preferences)
-  // Sample schedule data (replace with your data)
-  const scheduleData = [
-    { date: "2023-09-14", time: "08:00 - 12:00", schedule: "Ward 09" },
-    { date: "2023-09-15", time: "08:00 - 12:00", schedule: "Ward 09" },
-    { date: "2023-09-15", time: "13:00 - 17:00", schedule: "Ward 09" },
-    { date: "2023-09-16", time: "08:00 - 10:00", schedule: "Ward 09" },
-    { date: "2023-09-17", time: "13:00 - 16:00", schedule: "Ward 09" },
-    // Add more schedule data here...
-  ];
-
-  // Filter schedule data for the clicked date
-  const filteredSchedule = scheduleData.filter(
-    (item) =>
-      item.date ===
-      clickedDate.toISOString().split("T")[0].split("-")[0] +
-        "-" +
-        clickedDate.toISOString().split("T")[0].split("-")[1] +
-        "-" +
-        (parseInt(clickedDate.toISOString().split("T")[0].split("-")[2]) + 1)
-  );
+  const [preferences, setPreferences] = useState({});
 
   const handleDateChange = (date) => {
     setClickedDate(date);
   };
 
-  const handlePreference = (date, isPreferred) => {
+  const handlePreference = (date, preferenceType) => {
     // Copy the current preferences
     const updatedPreferences = { ...preferences };
 
     // Update the preference for the selected date
-    updatedPreferences[date] = isPreferred;
+    updatedPreferences[date.toISOString().split("T")[0]] = preferenceType;
 
     // Set the updated preferences in state
     setPreferences(updatedPreferences);
   };
 
   const tileClassName = ({ date }) => {
-    const dateString = date
-      .toISOString()
-      .split("T")[0]
-      .split("-")
-      .join("-");
+    const dateString = date.toISOString().split("T")[0];
     const preference = preferences[dateString];
-    if (preference === true) {
-      return "preferred-date";
-    } else if (preference === false) {
-      return "not-preferred-date";
+
+    if (preference === "prefer") {
+      return "prefer-date";
+    } else if (preference === "not prefer") {
+      return "not-prefer-date";
+    } else if (preference === "default" || !preference) {
+      return "default-date";
     }
+
     return "";
   };
 
@@ -74,85 +53,46 @@ const SchedulePage = () => {
             </div>
             <div className="w-full ml-4 md:w-1/2 lg:w-2/3 mt-4 md:mt-0">
               <h2 className="text-2xl mb-2 font-bold">
-                Preferences for{" "}
-                {clickedDate.toISOString().split("T")[0].split("-")[0] +
-                  "-" +
-                  clickedDate.toISOString().split("T")[0].split("-")[1] +
-                  "-" +
-                  (parseInt(
-                    clickedDate.toISOString().split("T")[0].split("-")[2]
-                  ) + 1)}
+                Preferences for {clickedDate.toISOString().split("T")[0]}
               </h2>
-              {filteredSchedule.length === 0 ? (
-                <p>No schedule for this date.</p>
-              ) : (
-                <ul className="space-y-4">
-                  {filteredSchedule.map((item, index) => (
-                    <li
-                      key={index}
-                      className="bg-white p-4 rounded-lg shadow-md"
-                    >
-                      <div className="text-lg font-bold">{item.time}</div>
-                      <div className="text-gray-700">{item.schedule}</div>
-                      <div className="mt-2 flex space-x-4">
-                        <button
-                          className={`${
-                            preferences[
-                                item.date +
-                                  " " +
-                                  item.time.split(" ")[0] +
-                                  "-" +
-                                  item.time.split(" ")[2]
-                              ]
-                              
-                              ? "bg-green-500"
-                              : "bg-gray-300"
-                          } text-white px-2 py-1 rounded-full`}
-                          onClick={() =>
-                            
-                            handlePreference(
-                              item.date +
-                                " " +
-                                item.time.split(" ")[0] +
-                                "-" +
-                                item.time.split(" ")[2],
-                              true
-                            )
-                     
-                          }
-                        >
-                          Preferred
-                        </button>
-                        <button
-                          className={`${
-                            preferences[
-                              item.date +
-                                " " +
-                                item.time.split(" ")[0] +
-                                "-" +
-                                item.time.split(" ")[2]
-                            ]
-                              ? "bg-gray-300"
-                              : "bg-red-500"
-                          } text-white px-2 py-1 rounded-full`}
-                          onClick={() =>
-                            handlePreference(
-                              item.date +
-                                " " +
-                                item.time.split(" ")[0] +
-                                "-" +
-                                item.time.split(" ")[2],
-                              false
-                            )
-                          }
-                        >
-                          Not Preferred
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <ul className="space-y-4">
+                <li className="flex justify-center">
+                  <button
+                    className={`preference-button w-32 h-12 ${
+                      preferences[clickedDate.toISOString().split("T")[0]] === "prefer"
+                        ? "bg-green-500"
+                        : "bg-gray-300"
+                    } text-white px-2 py-1 rounded-full`}
+                    onClick={() => handlePreference(clickedDate, "prefer")}
+                  >
+                    Prefer
+                  </button>
+                </li>
+                <li className="flex justify-center">
+                  <button
+                    className={`preference-button w-32 h-12 ${
+                      preferences[clickedDate.toISOString().split("T")[0]] === "not prefer"
+                        ? "bg-red-500"
+                        : "bg-gray-300"
+                    } text-white px-2 py-1 rounded-full`}
+                    onClick={() => handlePreference(clickedDate, "not prefer")}
+                  >
+                    Not Prefer
+                  </button>
+                </li>
+                <li className="flex justify-center">
+                  <button
+                    className={`preference-button w-32 h-12 ${
+                      preferences[clickedDate.toISOString().split("T")[0]] === "default"
+                        ? "bg-blue-500"
+                        : "bg-gray-300"
+                    } text-white px-2 py-1 rounded-full`}
+                    onClick={() => handlePreference(clickedDate, "default")}
+                  >
+                    Default
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -161,4 +101,4 @@ const SchedulePage = () => {
   );
 };
 
-export default SchedulePage;
+export default Preferences;
