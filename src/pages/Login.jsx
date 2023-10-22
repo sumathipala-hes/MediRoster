@@ -3,6 +3,7 @@ import LoginBackground from "../data/LoginBackground.jpg";
 import Logo from "../data/mediroster.png";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,36 +11,24 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useStateContext();
 
-  const handleMainAppPage = (event) => {
+  const handleMainAppPage = async (event) => {
     event.preventDefault();
     if (!email || !password) {
       alert("Please enter both email and password");
       return;
     }
 
-    fetch("login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data) {
-          login(data);
-          localStorage.setItem('user',JSON.stringify(data)); 
+    const { data } = await axios.post("/api/user/login", {
+      email: email,
+      password: password,
+    });
+    if (data) {
+      login(data);
+      localStorage.setItem("user", JSON.stringify(data));
+ 
           console.log(data);
           if (data.role === "consultant") {
-            navigate("/schedule");
+            navigate("/consultantAcceptRequest");
           } else if (data.role === "admin") {
             navigate("/wards");
           } else if (data.role === "doctor") {
@@ -48,11 +37,6 @@ export default function Login() {
         } else {
           alert("User data not found in the response.");
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-        alert("An error occurred during login.");
-      });
   };
 
   return (
@@ -117,33 +101,7 @@ export default function Login() {
                   required=""
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      for="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
+
               <button
                 type="submit"
                 className="w-full text-white bg-[#016285] hover:bg-[#203d59] focus:ring-4 focus:outline-none focus:ring-[#016285] font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

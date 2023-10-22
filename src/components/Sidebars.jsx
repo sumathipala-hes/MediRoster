@@ -31,8 +31,11 @@ const Sidebars = (props) => {
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-white"
             >
-              <SiMastodon className={` text-5xl ${!activeMenu && "rotate-90"} duration-1000 rounded-full float-left mr-2`} /> <span>MediRoster</span>
+              
             </Link>
+            <div className="items-center gap-2 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-white">
+            <SiMastodon className={` text-5xl ${!activeMenu && "rotate-90"} duration-1000 rounded-full float-left mr-2`} /> <span>MediRoster</span>
+            </div>
             <TooltipComponent content="Menu " position="BottomCenter" > 
               <button
                 type="button"
