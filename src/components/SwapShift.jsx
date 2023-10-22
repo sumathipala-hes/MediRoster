@@ -22,14 +22,7 @@ const SwapShiftsPage = () => {
     status:"Pending" // Initialize with an empty value
   });
 
-  const shifts = ["08:00-16:00", "16:00-00:00", "00:00-08:00"];
-
-  const doctorsByShift = {
-    "08:00-16:00": ["Dr. Sirimal", "Dr. Nadeesha", "Dr. Kamala"],
-    "16:00-00:00": ["Dr. Sithum", "Dr. Asith", "Dr. Thisara"],
-    "00:00-08:00": ["Dr. Rathnadeepa", "Dr. Mudiyanse", "Dr. Nanayakkara"],
-  };
-
+  
   const initiateSwap = () => {
     setIsModalOpen(true);
   };
@@ -170,7 +163,7 @@ else if(user && user.role==='consultant'){
                   }`}
                 >
                   <div>
-                    <p className="font-semibold">Date: {request.date}</p>
+                    <p className="font-semibold">Date: {request.date.substring(0, 10)}</p>
                     <p>Shift From: {request.timePeriodfrom}</p>
                     <p>Shift To: {request.timePeriodto}</p>
                     <p>{user && user.role==='doctor'?"Doctor:" : "Consultant:"} {request.selectedDoctor}</p>

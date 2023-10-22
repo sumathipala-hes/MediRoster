@@ -658,13 +658,14 @@ export const Doctorlinks = [
       },
       {
         name: "Swap Shifts",
-        path: "/swapShifts",
-        icon: <FaArrowRight />,
+       
+        path: "/swapRequests",
+        icon: <FaArrowLeft />,
       },
       {
         name: "Swap Requests",
-        path: "/swapRequests",
-        icon: <FaArrowLeft />,
+        path: "/swapShifts",
+        icon: <FaArrowRight />,
       },
       {
         name: "Add Preferences",
