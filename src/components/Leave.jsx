@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Header } from "../components";
-import { RiEditLine } from "react-icons/ri"; // Import the edit icon
-import DatePicker from "react-datepicker";
+import { RiEditLine ,RiDeleteBin5Line} from "react-icons/ri"; // Import the edit icon
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
 
 const LeaveRequestsPage = () => {
-  const [leaveRequests, setLeaveRequests] = useState([]);
-  // const [leaveRequests, setLeaveRequests] = useState([
-  //   { date: "2023-09-16", status: "Accepted", reason: "Vacation" },
-  //   { date: "2023-09-17", status: "Accepted", reason: "Family event" },
-  //   { date: "2023-09-18", status: "Pending", reason: "Sick leave" },
-  //   { date: "2023-09-20", status: "Rejected", reason: "Personal reasons" },
-  //   { date: "2023-09-21", status: "Rejected", reason: "Emergency" },
-  // ]);
+  const [leaveRequests, setLeaveRequests] = useState([
+    { date: "2023-09-16", status: "Accepted", reason: "Vacation" },
+    { date: "2023-09-17", status: "Accepted", reason: "Family event" },
+    { date: "2023-09-18", status: "Pending", reason: "Sick leave" },
+    { date: "2023-09-20", status: "Rejected", reason: "Personal reasons" },
+    { date: "2023-09-21", status: "Rejected", reason: "Emergency" },
+  ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
+  const[isEdit,setIsEdit]=useState(false);
+  const[editIndex,seteditIndex]=useState();
+  
   const [leaveRequestData, setLeaveRequestData] = useState({
-    selectedDate: null, // Initialize with null for the date picker
-    status: "Pending",
-    description: "",
+    date: null, // Initialize with null for the date picker
+    reason: "",
+    status:"Pending"
   });
 
   const openRequestModal = () => {
@@ -39,104 +39,41 @@ const LeaveRequestsPage = () => {
   };
 
   const handleDateChange = (date) => {
+    console.log(date)
+    
     setLeaveRequestData({
       ...leaveRequestData,
-      selectedDate: date,
+      date,
     });
   };
 
-  const submitLeaveRequest = async () => {
-    // Perform validation (if needed) for leave request data
-    if (
-      !leaveRequestData.selectedDate ||
-      leaveRequestData.description.trim() === ""
-    ) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    // Create the leave request data to send to the server
-    const leaveRequestToSend = {
-      date: leaveRequestData.selectedDate.toISOString().split("T")[0], // Convert the date to ISO format
-      status: "Pending", // You can set the initial status as "Pending"
-      reason: leaveRequestData.description,
-    };
-
-    try {
-      // Send a POST request to your backend server
-      const response = await axios.post(
-        "/api/leaveRequest",
-        leaveRequestToSend
-      ); // Replace '/api/leave-request' with your server's endpoint
-
-      // Check the response from the server and handle it accordingly
-      if (response.status === 200) {
-        console.log("Leave request sent successfully!");
-        // Optionally, you can reset the form fields here:
-        setLeaveRequestData({
-          selectedDate: null,
-          status: "Pending",
-          description: "",
-        });
-        // Handle the response data as needed
-      } else {
-        console.error("Server error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error sending leave request:", error);
-    }
+  const submitLeaveRequest = () => {
+    // Handle leave request submission here
+    // You can add validation and API call here
+    // Once submitted, update the leaveRequests state with the new request
+    setLeaveRequests([...leaveRequests, leaveRequestData]);
+    setIsModalOpen(false); // Close the modal after submission
   };
-
-  // const submitLeaveRequest = () => {
-  //   // Handle leave request submission here
-  //   // You can add validation and API call here
-  //   // Once submitted, update the leaveRequests state with the new request
-  //   setLeaveRequests([...leaveRequests, leaveRequestData]);
-  //   setIsModalOpen(false); // Close the modal after submission
-  // };
-
-  useEffect(() => {
-    async function fetchLeaveRequests() {
-      try {
-        const response = await axios.get("/api/getLeaveRequests"); // Replace with your backend API endpoint
-        if (response.status === 200) {
-          setLeaveRequests(response.data.leaveRequests);
-        } else {
-          console.error("Server error:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching leave requests:", error);
-      }
-    }
-
-    fetchLeaveRequests();
-  }, []);
 
   return (
     <div className="relative m-2 md:mx-5 md:mt-0 p-2 md:p-5 bg-white rounded-3xl">
-      <div>
-        <h2>Leave Requests</h2>
-        <ul>
-          {leaveRequests.map((request, index) => (
-            <li key={index}>
-              <h3>Date: {request.date}</h3>
-              <p>Status: {request.status}</p>
-              <p>Reason: {request.reason}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
       <Header category="Doctor" title="Leave Requests" />
       <div className="bg-gray-100 min-h-[60vh] py-8 flex justify-center items-center">
         <div className="bg-white shadow-md p-6 rounded-lg w-full md:w-full lg:w-4/5 relative">
-          <div className="w-full">
-            <button
-              className="bg-[#55aed4] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full mb-4"
-              onClick={openRequestModal}
-            >
-              Request A Leave
-            </button>
-          </div>
+          {user && user.role!=='admin'?(
+             <div className="w-full">
+             <button
+               className="bg-[#55aed4] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full mb-4"
+               onClick={openRequestModal}
+             >
+               Request A Leave
+             </button>
+           </div>
+          ):(
+            <></>
+          )
+          }
+         
           <div className="w-full">
             <h2 className="text-2xl mb-4">Current Requests</h2>
             <div className="space-y-4">
@@ -154,6 +91,14 @@ const LeaveRequestsPage = () => {
                   }`}
                 >
                   <div>
+                    {user && user.role==='admin'?(
+                      <div>
+                      <p>Name: {request.name}</p>
+                      <p>Role: {request.role}</p>
+                      </div>
+                    ):(
+                      <></>
+                    )}
                     <p className="font-semibold">Date: {request.date}</p>
                     <span>Status:</span>
                     <span
@@ -172,9 +117,33 @@ const LeaveRequestsPage = () => {
                     </span>
                     <p>Reason: {request.reason}</p>
                   </div>
-                  <button className="text-blue-500">
+                  {user && user.role!=='admin'?
+                  (<div className="flex justify-end">
+                  <button className="text-blue-500" onClick={()=>handleEdit(index)}>
                     <RiEditLine size={24} />
                   </button>
+                  <button className="text-red-500" onClick={()=>handleDelete(index)}>
+                  <RiDeleteBin5Line size={24} />
+                  </button>
+                 </div> ):
+                 (
+                  <div className="flex justify-end">
+                      <button
+                         type="button"
+                         onClick={()=>updateStatusHandler(index,"Accepted")}
+                         className="bg-[#3a5eba] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full">
+                       Accept
+                      </button>
+                      <button
+                      type="button"
+                      onClick={()=>updateStatusHandler(index,"Rejected")}
+                      className="bg-[#d64554] hover:bg-[#8d3468] text-white font-bold py-2 px-4 rounded-full">
+                      Reject
+                   </button>
+                   </div>
+                 )}
+                  
+              
                 </div>
               ))}
             </div>
@@ -212,28 +181,48 @@ const LeaveRequestsPage = () => {
                       className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       placeholderText="Select date"
                     />
+                
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Reason:
                     </label>
                     <textarea
-                      name="description"
-                      value={leaveRequestData.description}
-                      onChange={handleInputChange}
+                      name="reason"
+                     
+                      value={leaveRequestData.reason}
+                      onChange={(e)=>handleInputChange(e)}
                       className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       placeholder="Enter leave Reason"
                       rows="4" // You can adjust the number of rows as needed
                     />
                   </div>
                   <div className="mb-4 text-center">
-                    <button
+                    {isEdit ?(
+                      <div className="flex justify-around">
+                      <button
+                         type="button"
+                         onClick={updateHandler}
+                         className="bg-[#55aed4] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full">
+                       Save
+                      </button>
+                      <button
+                      type="button"
+                      onClick={cancelHandler}
+                      className="bg-[#d64554] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full">
+                   Cancel
+                   </button>
+                   </div>
+                    ):(
+                      <button
                       type="button"
                       onClick={submitLeaveRequest}
                       className="bg-[#55aed4] hover:bg-[#203d59] text-white font-bold py-2 px-4 rounded-full"
                     >
                       Submit Request
                     </button>
+                    )}
+                    
                   </div>
                 </form>
               </div>

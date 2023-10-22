@@ -703,6 +703,11 @@ export const Adminlinks = [
         path: "/doctors",
         icon: <FaUsers />,
       },
+      {
+        name:"Leave Accept",
+        path:"/leaveRequest",
+        icon:<FaClipboardList />,
+      }
     ],
   },
 ];
@@ -711,8 +716,9 @@ export const Consultantlinks = [
   {
     links: [
       {
-        name: "Accept Requests",
-        path: "/consultantAcceptRequest",
+        name:"Leave Accept",
+        path:"/leaveRequest",
+        icon:<FaClipboardList />,
         icon: <FaClipboardList />,
       },
       {
