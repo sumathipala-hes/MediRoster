@@ -658,13 +658,14 @@ export const Doctorlinks = [
       },
       {
         name: "Swap Shifts",
-        path: "/swapShifts",
-        icon: <FaArrowRight />,
+       
+        path: "/swapRequests",
+        icon: <FaArrowLeft />,
       },
       {
         name: "Swap Requests",
-        path: "/swapRequests",
-        icon: <FaArrowLeft />,
+        path: "/swapShifts",
+        icon: <FaArrowRight />,
       },
       {
         name: "Add Preferences",
@@ -703,6 +704,11 @@ export const Adminlinks = [
         path: "/doctors",
         icon: <FaUsers />,
       },
+      {
+        name:"Leave Accept",
+        path:"/leaveRequest",
+        icon:<FaClipboardList />,
+      }
     ],
   },
 ];
@@ -711,8 +717,9 @@ export const Consultantlinks = [
   {
     links: [
       {
-        name: "Accept Requests",
-        path: "/consultantAcceptRequest",
+        name:"Leave Accept",
+        path:"/leaveRequest",
+        icon:<FaClipboardList />,
         icon: <FaClipboardList />,
       },
       {
