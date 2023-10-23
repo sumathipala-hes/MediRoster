@@ -728,9 +728,15 @@ export const Consultantlinks = [
         icon: <FaHospital />,
       },
       {
-        name: "Shift Management",
-        path: "/shiftManagement",
-        icon: <FaCog />,
+        name: "Swap Shifts",
+       
+        path: "/swapRequests",
+        icon: <FaArrowLeft />,
+      },
+      {
+        name: "Swap Requests",
+        path: "/swapShifts",
+        icon: <FaArrowRight />,
       },
       {
         name: "View Doctors",
