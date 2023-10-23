@@ -67,7 +67,7 @@ const Wards = () => {
  
   return (
     <div className='relative'>
-      <div className='md:pl-20 pl-7 text-3xl font-semibold z-0'>Wards</div>
+      <div className='md:pl-20 pl-7 text-3xl font-semibold z-0 my-3 ml-1'>Wards</div>
       <div className='absolute z-20 container mx-auto flex-col justify-center items-center pl-2'>
       {user && user.role==="admin"?
         <button onClick={handleClick} className='bg-blue-900 hover:bg-blue-800 rounded-md p-1 md:ml-20 ml-6 text-white'>Add wards</button>

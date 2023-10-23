@@ -194,7 +194,7 @@ if(user && user.role==='admin'){
                     ):(
                       <></>
                     )}
-                    <p className="font-semibold">Date: {request.date}</p>
+                    <p className="font-semibold">Date: {request.date.substring(0, 10)}</p>
                     <span>Status:</span>
                     <span
                       className={`font-bold ${
