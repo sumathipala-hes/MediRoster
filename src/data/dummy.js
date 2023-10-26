@@ -717,8 +717,10 @@ export const Consultantlinks = [
   {
     links: [
       {
-        name:"Leave Accept",
-        path:"/consultantAcceptRequest",
+
+        name:"Leave Request",
+        path:"/leaveRequest",
+
         icon:<FaClipboardList />,
         icon: <FaClipboardList />,
       },
@@ -728,9 +730,15 @@ export const Consultantlinks = [
         icon: <FaHospital />,
       },
       {
-        name: "Shift Management",
-        path: "/shiftManagement",
-        icon: <FaCog />,
+        name: "Swap Shifts",
+       
+        path: "/swapRequests",
+        icon: <FaArrowLeft />,
+      },
+      {
+        name: "Swap Requests",
+        path: "/swapShifts",
+        icon: <FaArrowRight />,
       },
       {
         name: "View Doctors",

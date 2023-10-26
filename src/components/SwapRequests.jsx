@@ -55,7 +55,7 @@ useEffect(()=>{
   return (
     <div className="relative m-2 md:mx-5 md:mt-0 p-2 md:p-5 bg-white rounded-3xl">
       
-      <Header category={user && user.role==='doctor'?"Doctor" : "Consultant"} title="Swap Request" />
+      <Header category={user && user.role==='doctor'?"Doctor" : "Consultant"} title="Swap Shifts" />
       <div className="bg-gray-100 min-h-[60vh] py-8 flex justify-center items-center">
         <div className="bg-white shadow-md p-6 rounded-lg w-full md:w-full lg:w-4/5">
           <div className="w-full">
@@ -75,7 +75,7 @@ useEffect(()=>{
                   }`}
                 >
                   <div>
-                    <p className="font-semibold">Date: {request.date.substring(0, 10)}</p>
+                    <p className="font-semibold">Date: { request.date && request.date.substring(0, 10)}</p>
                     <p>Shift From: {request.timePeriodfrom}</p>
                     <p>Shift To: {request.timePeriodto}</p>
                     <p>Sender: {request.senderName}</p>

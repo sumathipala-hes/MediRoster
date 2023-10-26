@@ -17,26 +17,35 @@ export default function Login() {
       alert("Please enter both email and password");
       return;
     }
-
-    const { data } = await axios.post("/api/user/login", {
-      email: email,
-      password: password,
-    });
-    if (data) {
-      login(data);
-      localStorage.setItem("user", JSON.stringify(data));
- 
-          console.log(data);
-          if (data.role === "consultant") {
-            navigate("/consultantAcceptRequest");
-          } else if (data.role === "admin") {
-            navigate("/wards");
-          } else if (data.role === "doctor") {
-            navigate("/schedule");
-          }
-        } else {
-          alert("User data not found in the response.");
-        }
+    try{
+      const res = await axios.post("/api/user/login", {
+        email: email,
+        password: password,
+      });
+      if(res.data.message){
+        console.log(res.message)
+      alert(res.data.message)
+      }
+      else if (res.data) {
+        login(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data));
+   
+            console.log(res.data);
+            if (res.data.role === "consultant") {
+              navigate("/consultantAcceptRequest");
+            } else if (res.data.role === "admin") {
+              navigate("/wards");
+            } else if (res.data.role === "doctor") {
+              navigate("/schedule");
+            }
+          } 
+        
+    }
+    catch(e){
+      console.log(e)
+     
+    }
+    
   };
 
   return (

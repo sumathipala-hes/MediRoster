@@ -52,10 +52,21 @@ const SwapShiftsPage = () => {
       ...swapRequestData,
       [name]: value,
     });
+    
   };
 const handleSelectDoctor=(e)=>{
-  const selectid= selectRef.current.selectedIndex
-  setSwapRequestData({...swapRequestData,selectDoctorId:names[selectid-1]._id,selectedDoctor:e.target.value})
+  
+  const { name, value } = e.target;
+  
+    // Handle the selected doctor separately
+    const selectedDoctor = names.find((doctor) => doctor.Name === value);
+    setSwapRequestData({
+      ...swapRequestData,
+      selectedDoctor: value,
+      selectDoctorId: selectedDoctor ? selectedDoctor._id : "",
+    });
+  
+   
 }
   const submitSwapRequest = () => {
     // Handle swap shift request submission
@@ -135,7 +146,7 @@ else if(user && user.role==='consultant'){
 },[user])
   return (
     <div className="m-2 md:mx-5 md:mt-0 p-2 md:p-5 bg-white rounded-3xl">
-      <Header category={user && user.role==='doctor'?"Doctor" : "Consultant"} title="Swap Shifts" />
+      <Header category={user && user.role==='doctor'?"Doctor" : "Consultant"} title="Swap Requests" />
       <div className="bg-gray-100 min-h-[60vh] py-8 flex justify-center items-center">
         <div className="bg-white shadow-md p-6 rounded-lg w-full md:w-full lg:w-4/5">
           <div className="w-full">
@@ -149,7 +160,7 @@ else if(user && user.role==='consultant'){
           <div className="w-full">
             <h2 className="text-2xl mb-4">Your Requests</h2>
             <div className="space-y-4">
-              {swapRequests.map((request, index) => (
+              {swapRequests && swapRequests.map((request, index) => (
                 <div
                   key={index}
                   className={`p-4 rounded-lg shadow-md flex items-center justify-between ${
@@ -183,7 +194,8 @@ else if(user && user.role==='consultant'){
                       {request.status}
                     </span>
                   </div>
-                  <div>
+                  { request.status === "Pending"?(
+                    <div>
                     <button
                       className="text-blue-500 mr-2"
                       onClick={() => editRequest(index)}
@@ -197,6 +209,10 @@ else if(user && user.role==='consultant'){
                       <RiDeleteBin6Fill size={24} />
                     </button>
                   </div>
+                  ):(
+                    <></>
+                  )}
+                  
                 </div>
               ))}
             </div>
