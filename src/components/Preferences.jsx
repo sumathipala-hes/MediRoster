@@ -3,6 +3,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Header } from "../components";
 
+
 const Preference = () => {
   const [clickedDate, setClickedDate] = useState(new Date());
   const [preferences, setPreferences] = useState({}); // Initialize with empty preferences
@@ -12,9 +13,11 @@ const Preference = () => {
     // Replace this with your schedule data...
   ];
 
+
   const handleDateChange = (date) => {
     setClickedDate(date);
   };
+
 
   const handlePreference = (preference) => {
     // Update the preference for the selected date
@@ -38,6 +41,7 @@ const Preference = () => {
     } else {
       return "bg-gray-300 text-gray-800"; // Unselected
     }
+
   };
 
   return (
@@ -57,6 +61,7 @@ const Preference = () => {
               <h2 className="text-2xl mb-2 font-bold">
                 Preferences for {clickedDate.toISOString().split("T")[0]}
               </h2>
+
               <div className="flex flex-col space-y-2">
                 <button
                   className={`preference-button ${getPreferenceButtonClass(
@@ -83,6 +88,7 @@ const Preference = () => {
                   Default
                 </button>
               </div>
+
             </div>
           </div>
         </div>
@@ -92,3 +98,4 @@ const Preference = () => {
 };
 
 export default Preference;
+

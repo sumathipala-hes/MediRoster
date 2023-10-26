@@ -717,8 +717,10 @@ export const Consultantlinks = [
   {
     links: [
       {
+
         name:"Leave Request",
         path:"/leaveRequest",
+
         icon:<FaClipboardList />,
         icon: <FaClipboardList />,
       },
