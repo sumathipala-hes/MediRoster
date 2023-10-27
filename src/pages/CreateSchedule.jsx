@@ -1,8 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import { Navbar, Footer, Sidebars } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
+import WardCard from "../components/WardCard"; // Import the WardCard component
 
 const ConsultantPage = (props) => {
   const {
@@ -15,24 +15,13 @@ const ConsultantPage = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const currentThemeColor = localStorage.getItem("colorMode");
-    const currentThemeMode = localStorage.getItem("themeMode");
     if (!user) {
       navigate("/login");
     }
-    if (currentThemeColor && currentThemeMode) {
-      setCurrentColor(currentThemeColor);
-      setCurrentMode(currentThemeMode);
-    }
+    
   }, [user, navigate]);
 
-  // State to manage the schedule data
-  const [schedule, setSchedule] = useState({
-    date: "",
-    startTime: "",
-    endTime: "",
-    description: "",
-  });
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,9 +33,7 @@ const ConsultantPage = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add code here to submit the schedule data to your backend or perform any necessary actions
-    // You can use axios or other methods to send the data to your API
-    // Example: axios.post("/api/schedule/create", schedule);
+    // Handle form submission here
   };
 
   return (
@@ -70,70 +57,14 @@ const ConsultantPage = (props) => {
         >
           <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
             <Navbar />
-            <div className="p-4">
-              <h1 className="text-2xl font-semibold">Create Schedule</h1>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label htmlFor="date" className="block text-sm font-medium text-gray-700">
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    value={schedule.date}
-                    onChange={handleChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">
-                    Start Time
-                  </label>
-                  <input
-                    type="time"
-                    id="startTime"
-                    name="startTime"
-                    value={schedule.startTime}
-                    onChange={handleChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">
-                    End Time
-                  </label>
-                  <input
-                    type="time"
-                    id="endTime"
-                    name="endTime"
-                    value={schedule.endTime}
-                    onChange={handleChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    value={schedule.description}
-                    onChange={handleChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                >
-                  Create Schedule
-                </button>
-              </form>
+            {/* Include WardCard components here */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
+              <WardCard wardName="Ward A" wardNumber="01" />
+              <WardCard wardName="Ward B" wardNumber="02" />
+              <WardCard wardName="Ward C" wardNumber="03" />
+              <WardCard wardName="Ward D" wardNumber="04" />
+              <WardCard wardName="Ward E" wardNumber="05" />
+              {/* You can add more WardCard components as needed */}
             </div>
           </div>
           <Footer />
