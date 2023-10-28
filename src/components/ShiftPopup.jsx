@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { FaTrash } from "react-icons/fa";
-import ScheduleDatePopup from "./ScheduleDatePopup"; // Import the new component
+import ScheduleDatePopup from "./ScheduleDatePopup";
+import AddShiftPopup from "./AddShiftPopup";
+
 
 const customStyles = {
   content: {
@@ -25,6 +27,7 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
 
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [scheduleDatePopupOpen, setScheduleDatePopupOpen] = useState(false); // State to manage the date selection popup
+  const [addShiftPopupOpen, setAddShiftPopupOpen] = useState(false);
 
   const handleCreateSchedule = () => {
     // Open the date selection popup when "Create Schedule" is clicked
@@ -57,6 +60,10 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
     console.log("Selected Start Date:", startDate);
     console.log("Selected End Date:", endDate);
     setScheduleDatePopupOpen(false); // Close the date selection popup
+  };
+
+  const handleAddShift = () =>{
+    
   };
 
   return (
@@ -120,7 +127,7 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
         Create Schedule
       </button>
       <button
-        onClick={() => setScheduleDatePopupOpen(true)}
+        onClick={() => setAddShiftPopupOpen(true)}
         className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
       >
         Add Shift
@@ -132,8 +139,17 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
           onSubmit={handleScheduleDateSubmit}
         />
       )}
+      {addShiftPopupOpen && (
+        <AddShiftPopup
+          isOpen={addShiftPopupOpen}
+          onRequestClose={() => setAddShiftPopupOpen(false)}
+          onAddShift={handleAddShift}
+        />
+      )}
     </Modal>
   );
 };
 
 export default ShiftPopup;
+
+
