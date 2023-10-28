@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { FaTrash } from "react-icons/fa";
+import ScheduleDatePopup from "./ScheduleDatePopup"; // Import the new component
 
 const customStyles = {
   content: {
@@ -23,27 +24,39 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
   ]);
 
   const [deleteIndex, setDeleteIndex] = useState(null);
+  const [scheduleDatePopupOpen, setScheduleDatePopupOpen] = useState(false); // State to manage the date selection popup
 
   const handleCreateSchedule = () => {
-    // Handle creating a schedule here
+    // Open the date selection popup when "Create Schedule" is clicked
+    setScheduleDatePopupOpen(true);
   };
 
   const handleDeleteShift = (index) => {
-    // Show the delete button for the specified row
+    // Open the delete button for the selected shift
     setDeleteIndex(index);
   };
 
-  const confirmDelete = (index) => {
-    // Handle deleting the shift at the specified index here
-    const updatedShifts = [...shifts];
-    updatedShifts.splice(index, 1);
-    setShifts(updatedShifts);
-    setDeleteIndex(null); // Reset deleteIndex
+  const handleCancelDelete = () => {
+    // Cancel deleting the shift and close the delete button
+    setDeleteIndex(null);
   };
 
-  const handleClosePopup = () => {
-    setDeleteIndex(null); // Reset deleteIndex when closing the popup
-    onRequestClose();
+  const handleConfirmDelete = () => {
+    // Handle deleting the shift and close the delete button
+    if (deleteIndex !== null) {
+      const updatedShifts = [...shifts];
+      updatedShifts.splice(deleteIndex, 1);
+      setShifts(updatedShifts);
+      setDeleteIndex(null);
+    }
+  };
+
+  // Function to handle submitting selected dates
+  const handleScheduleDateSubmit = (startDate, endDate) => {
+    // Handle the selected dates, e.g., create a schedule
+    console.log("Selected Start Date:", startDate);
+    console.log("Selected End Date:", endDate);
+    setScheduleDatePopupOpen(false); // Close the date selection popup
   };
 
   return (
@@ -53,12 +66,6 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
       contentLabel="Shift Popup"
       style={customStyles}
     >
-      <button
-        onClick={handleClosePopup}
-        className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-gray-800"
-      >
-        X
-      </button>
       <h2 className="text-2xl font-bold mb-4">Create Schedule for {wardName}</h2>
       <table className="w-full border-collapse border border-gray-300 mb-4">
         <thead>
@@ -73,32 +80,31 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
           {shifts.map((shift, index) => (
             <tr key={index}>
               <td className="py-2 px-4 border border-gray-300 relative">
-                <div className="flex items-center">
-                  {deleteIndex === index ? (
-                    <>
-                      <button
-                        onClick={() => confirmDelete(index)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        <FaTrash size={18} />
-                      </button>
-                      <button
-                        onClick={() => setDeleteIndex(null)}
-                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded-md hover:bg-gray-300 ml-1"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
+                {deleteIndex === index && (
+                  <div className="flex">
                     <button
-                      onClick={() => handleDeleteShift(index)}
-                      className="text-gray-500 hover:text-gray-700"
+                      onClick={handleConfirmDelete}
+                      className="cursor-pointer text-gray-500 hover:text-gray-700 p-2"
                     >
-                      <FaTrash size={18} />
+                      <FaTrash />
                     </button>
-                  )}
-                  <span className="ml-2">{shift.name}</span>
-                </div>
+                    <button
+                      onClick={handleCancelDelete}
+                      className="cursor-pointer text-gray-500 hover:text-gray-700 p-2"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+                {deleteIndex !== index && (
+                  <button
+                    onClick={() => handleDeleteShift(index)}
+                    className="cursor-pointer text-gray-500 hover:text-gray-700 p-2"
+                  >
+                    <FaTrash />
+                  </button>
+                )}
+                {shift.name}
               </td>
               <td className="py-2 px-4 border border-gray-300">{shift.startTime}</td>
               <td className="py-2 px-4 border border-gray-300">{shift.endTime}</td>
@@ -109,16 +115,23 @@ const ShiftPopup = ({ wardName, isOpen, onRequestClose }) => {
       </table>
       <button
         onClick={handleCreateSchedule}
-        className="bg-blue-500 text-white py-2 px-4 rounded-md hover-bg-blue-600 mr-2"
+        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-2"
       >
         Create Schedule
       </button>
       <button
-        onClick={handleCreateSchedule}
-        className="bg-green-500 text-white py-2 px-4 rounded-md hover-bg-green-600"
+        onClick={() => setScheduleDatePopupOpen(true)}
+        className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
       >
         Add Shift
       </button>
+      {scheduleDatePopupOpen && (
+        <ScheduleDatePopup
+          isOpen={scheduleDatePopupOpen}
+          onRequestClose={() => setScheduleDatePopupOpen(false)}
+          onSubmit={handleScheduleDateSubmit}
+        />
+      )}
     </Modal>
   );
 };
