@@ -2,7 +2,7 @@
   "name": "MediRoster",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000/",
+  "proxy": "https://mediroster-backend.onrender.com/",
   "dependencies": {
     "@fvilers/disable-react-devtools": "^1.3.0",
     "@syncfusion/ej2": "^19.4.48",
