@@ -4,6 +4,7 @@ import Logo from "../data/mediroster.png";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axios from "axios";
+import server from "../server"
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function Login() {
       return;
     }
     try{
-      const res = await axios.post("/api/user/login", {
+      const res = await axios.post(`${server}/api/user/login`, {
         email: email,
         password: password,
       });

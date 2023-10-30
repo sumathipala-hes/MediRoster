@@ -1,0 +1,1 @@
+export const server = "https://mediroster-backend.onrender.com/"
